@@ -16,6 +16,9 @@ backend/prisma/migrations/dev/
 npm-debug.log*
 pnpm-debug.log*
 
+# Playwright
+.playwright-mcp/
+
 # OS
 .DS_Store
 Thumbs.db

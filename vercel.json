@@ -3,6 +3,7 @@
   "outputDirectory": "frontend/dist/frontend/browser",
   "installCommand": "pnpm install --frozen-lockfile",
   "rewrites": [
+    { "source": "/api/:path*", "destination": "https://REPLACE_WITH_RAILWAY_URL/api/:path*" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

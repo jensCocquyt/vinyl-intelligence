@@ -1,6 +1,10 @@
 {
   "name": "backend",
   "version": "1.0.0",
+  "packageManager": "pnpm@9.15.0",
+  "engines": {
+    "node": ">=20.9.0"
+  },
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "build": "tsc",

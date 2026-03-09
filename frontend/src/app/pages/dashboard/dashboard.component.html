@@ -17,7 +17,7 @@
       <div class="card">
         <span class="label">Est. Median Value</span>
         <span class="value">
-          {{ summary()?.estimatedMedianValue != null ? ('$' + summary().estimatedMedianValue.toFixed(2)) : '—' }}
+          {{ summary()?.estimatedMedianValue !== null ? ('$' + summary().estimatedMedianValue.toFixed(2)) : '—' }}
         </span>
       </div>
     </section>
@@ -28,15 +28,15 @@
       <div class="value-row">
         <div>
           <span class="label">Min</span>
-          <span class="value">{{ value()?.minValue != null ? ('$' + value().minValue.toFixed(2)) : '—' }}</span>
+          <span class="value">{{ value()?.minValue !== null ? ('$' + value().minValue.toFixed(2)) : '—' }}</span>
         </div>
         <div>
           <span class="label">Median</span>
-          <span class="value">{{ value()?.medianValue != null ? ('$' + value().medianValue.toFixed(2)) : '—' }}</span>
+          <span class="value">{{ value()?.medianValue !== null ? ('$' + value().medianValue.toFixed(2)) : '—' }}</span>
         </div>
         <div>
           <span class="label">Max</span>
-          <span class="value">{{ value()?.maxValue != null ? ('$' + value().maxValue.toFixed(2)) : '—' }}</span>
+          <span class="value">{{ value()?.maxValue !== null ? ('$' + value().maxValue.toFixed(2)) : '—' }}</span>
         </div>
       </div>
     </section>

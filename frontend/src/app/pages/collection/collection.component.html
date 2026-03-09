@@ -76,7 +76,7 @@
             <td>{{ item.country ?? '—' }}</td>
             <td>{{ item.formats?.[0]?.format ?? '—' }}</td>
             <td>
-              {{ item.valueSnapshots?.[0]?.medianValue != null
+              {{ item.valueSnapshots?.[0]?.medianValue !== null
                 ? ('$' + (+item.valueSnapshots[0].medianValue).toFixed(2))
                 : '—' }}
             </td>
@@ -94,5 +94,5 @@
 </div>
 
 @if (selectedItem()) {
-  <app-record-drawer [item]="selectedItem()!" (close)="closeDrawer()" />
+  <app-record-drawer [item]="selectedItem()!" (closed)="closeDrawer()" />
 }

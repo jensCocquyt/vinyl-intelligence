@@ -6,6 +6,7 @@ import {
   ViewChild,
   AfterViewInit,
   OnDestroy,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { Chart, BarController, CategoryScale, LinearScale, BarElement, Tooltip } from 'chart.js';
 
@@ -14,8 +15,9 @@ Chart.register(BarController, CategoryScale, LinearScale, BarElement, Tooltip);
 @Component({
   selector: 'app-bar-chart',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<canvas #canvas></canvas>`,
-  styles: [`canvas { width: 100% !important; max-height: 260px; }`],
+  styleUrl: './bar-chart.component.scss',
 })
 export class BarChartComponent implements AfterViewInit, OnChanges, OnDestroy {
   @ViewChild('canvas') canvasRef!: ElementRef<HTMLCanvasElement>;

@@ -1,12 +1,19 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../services/api.service';
 import { forkJoin } from 'rxjs';
 import { BarChartComponent } from '../../components/bar-chart/bar-chart.component';
+import type {
+  DashboardSummary,
+  DashboardValue,
+  ChartPoint,
+  ValuableRelease,
+} from '../../types/models';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, BarChartComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
@@ -14,15 +21,15 @@ import { BarChartComponent } from '../../components/bar-chart/bar-chart.componen
 export class DashboardComponent implements OnInit {
   private api = inject(ApiService);
 
-  summary = signal<any>(null);
-  value = signal<any>(null);
-  topArtists = signal<any[]>([]);
-  topGenres = signal<any[]>([]);
-  topStyles = signal<any[]>([]);
-  formats = signal<any[]>([]);
-  decades = signal<any[]>([]);
-  countries = signal<any[]>([]);
-  valuableReleases = signal<any[]>([]);
+  summary = signal<DashboardSummary | null>(null);
+  value = signal<DashboardValue | null>(null);
+  topArtists = signal<ChartPoint[]>([]);
+  topGenres = signal<ChartPoint[]>([]);
+  topStyles = signal<ChartPoint[]>([]);
+  formats = signal<ChartPoint[]>([]);
+  decades = signal<ChartPoint[]>([]);
+  countries = signal<ChartPoint[]>([]);
+  valuableReleases = signal<ValuableRelease[]>([]);
   insights = signal<string[]>([]);
   loading = signal(true);
   error = signal<string | null>(null);
@@ -53,7 +60,7 @@ export class DashboardComponent implements OnInit {
         this.insights.set(data.insights);
         this.loading.set(false);
       },
-      error: (err) => {
+      error: (_err) => {
         this.error.set('Failed to load dashboard data.');
         this.loading.set(false);
       },

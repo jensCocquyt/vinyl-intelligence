@@ -68,7 +68,7 @@ export class DiscogsService {
 
     const response = await axios.post(
       DISCOGS_ACCESS_TOKEN_URL,
-      new URLSearchParams({ oauth_verifier }).toString(),
+      new URLSearchParams({ oauth_verifier: oauthVerifier }).toString(),
       {
         headers: {
           ...this.authHeader(DISCOGS_ACCESS_TOKEN_URL, 'POST', token),

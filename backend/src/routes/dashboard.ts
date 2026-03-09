@@ -1,4 +1,5 @@
-import { Router, Request } from 'express';
+import type { Request } from 'express';
+import { Router } from 'express';
 import { getAuth } from '@clerk/express';
 import { requireAuth } from '../middleware/auth';
 import { prisma } from '../lib/prisma';
@@ -45,7 +46,7 @@ dashboardRouter.get('/summary', requireAuth, async (req, res) => {
       valuedRecords,
       estimatedMedianValue: computeMedian(values),
     });
-  } catch (err) {
+  } catch (_err) {
     res.status(500).json({ error: 'Failed to fetch summary' });
   }
 });
@@ -69,7 +70,7 @@ dashboardRouter.get('/value', requireAuth, async (req, res) => {
       medianValue: computeMedian(values),
       maxValue: values[values.length - 1] ?? null,
     });
-  } catch (err) {
+  } catch (_err) {
     res.status(500).json({ error: 'Failed to fetch value overview' });
   }
 });
@@ -85,7 +86,7 @@ dashboardRouter.get('/top-artists', requireAuth, async (req, res) => {
       take: 10,
     });
     res.json(result.map((r) => ({ artist: r.artist, count: r._count.id })));
-  } catch (err) {
+  } catch (_err) {
     res.status(500).json({ error: 'Failed to fetch top artists' });
   }
 });
@@ -100,7 +101,7 @@ dashboardRouter.get('/top-genres', requireAuth, async (req, res) => {
       orderBy: { _count: { genre: 'desc' } },
     });
     res.json(result.map((r) => ({ genre: r.genre, count: r._count.genre })));
-  } catch (err) {
+  } catch (_err) {
     res.status(500).json({ error: 'Failed to fetch genres' });
   }
 });
@@ -115,7 +116,7 @@ dashboardRouter.get('/top-styles', requireAuth, async (req, res) => {
       orderBy: { _count: { style: 'desc' } },
     });
     res.json(result.map((r) => ({ style: r.style, count: r._count.style })));
-  } catch (err) {
+  } catch (_err) {
     res.status(500).json({ error: 'Failed to fetch styles' });
   }
 });
@@ -130,7 +131,7 @@ dashboardRouter.get('/formats', requireAuth, async (req, res) => {
       orderBy: { _count: { format: 'desc' } },
     });
     res.json(result.map((r) => ({ format: r.format, count: r._count.format })));
-  } catch (err) {
+  } catch (_err) {
     res.status(500).json({ error: 'Failed to fetch formats' });
   }
 });
@@ -155,7 +156,7 @@ dashboardRouter.get('/decades', requireAuth, async (req, res) => {
       .map(([decade, count]) => ({ decade, count }));
 
     res.json(result);
-  } catch (err) {
+  } catch (_err) {
     res.status(500).json({ error: 'Failed to fetch decades' });
   }
 });
@@ -170,7 +171,7 @@ dashboardRouter.get('/countries', requireAuth, async (req, res) => {
       orderBy: { _count: { id: 'desc' } },
     });
     res.json(result.map((r) => ({ country: r.country, count: r._count.id })));
-  } catch (err) {
+  } catch (_err) {
     res.status(500).json({ error: 'Failed to fetch countries' });
   }
 });
@@ -207,7 +208,7 @@ dashboardRouter.get('/valuable-releases', requireAuth, async (req, res) => {
       }));
 
     res.json(top);
-  } catch (err) {
+  } catch (_err) {
     res.status(500).json({ error: 'Failed to fetch valuable releases' });
   }
 });
@@ -274,7 +275,7 @@ dashboardRouter.get('/insights', requireAuth, async (req, res) => {
     }
 
     res.json(insights);
-  } catch (err) {
+  } catch (_err) {
     res.status(500).json({ error: 'Failed to fetch insights' });
   }
 });

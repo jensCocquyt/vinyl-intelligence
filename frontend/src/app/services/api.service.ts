@@ -3,6 +3,15 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { from, switchMap, Observable } from 'rxjs';
 import { ClerkService } from './clerk.service';
 import { environment } from '../../environments/environment';
+import type {
+  CollectionItem,
+  DashboardSummary,
+  DashboardValue,
+  DiscogsConnection,
+  SyncJob,
+  ValuableRelease,
+  ChartPoint,
+} from '../types/models';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
@@ -38,81 +47,85 @@ export class ApiService {
   }
 
   // Discogs connection
-  getConnection() {
-    return this.get<{ connection: any }>('/discogs/connection');
+  getConnection(): Observable<{ connection: DiscogsConnection | null }> {
+    return this.get<{ connection: DiscogsConnection | null }>('/discogs/connection');
   }
 
-  startDiscogsConnect() {
+  startDiscogsConnect(): Observable<{ authorizeUrl: string }> {
     return this.post<{ authorizeUrl: string }>('/discogs/connect/start');
   }
 
-  disconnectDiscogs() {
+  disconnectDiscogs(): Observable<{ ok: boolean }> {
     return this.delete<{ ok: boolean }>('/discogs/connection');
   }
 
   // Sync
-  startSync() {
+  startSync(): Observable<{ jobId: string; status: string }> {
     return this.post<{ jobId: string; status: string }>('/collection/sync');
   }
 
-  getSyncStatus() {
-    return this.get<{ connection: any; latestJob: any }>('/collection/sync-status');
+  getSyncStatus(): Observable<{ connection: DiscogsConnection | null; latestJob: SyncJob | null }> {
+    return this.get<{ connection: DiscogsConnection | null; latestJob: SyncJob | null }>(
+      '/collection/sync-status'
+    );
   }
 
-  getSyncHistory() {
-    return this.get<{ jobs: any[] }>('/collection/sync-history');
+  getSyncHistory(): Observable<{ jobs: SyncJob[] }> {
+    return this.get<{ jobs: SyncJob[] }>('/collection/sync-history');
   }
 
   // Dashboard
-  getDashboardSummary() {
-    return this.get<any>('/dashboard/summary');
+  getDashboardSummary(): Observable<DashboardSummary> {
+    return this.get<DashboardSummary>('/dashboard/summary');
   }
 
-  getDashboardValue() {
-    return this.get<any>('/dashboard/value');
+  getDashboardValue(): Observable<DashboardValue> {
+    return this.get<DashboardValue>('/dashboard/value');
   }
 
-  getTopArtists() {
-    return this.get<{ artist: string; count: number }[]>('/dashboard/top-artists');
+  getTopArtists(): Observable<ChartPoint[]> {
+    return this.get<ChartPoint[]>('/dashboard/top-artists');
   }
 
-  getTopGenres() {
-    return this.get<{ genre: string; count: number }[]>('/dashboard/top-genres');
+  getTopGenres(): Observable<ChartPoint[]> {
+    return this.get<ChartPoint[]>('/dashboard/top-genres');
   }
 
-  getTopStyles() {
-    return this.get<{ style: string; count: number }[]>('/dashboard/top-styles');
+  getTopStyles(): Observable<ChartPoint[]> {
+    return this.get<ChartPoint[]>('/dashboard/top-styles');
   }
 
-  getFormats() {
-    return this.get<{ format: string; count: number }[]>('/dashboard/formats');
+  getFormats(): Observable<ChartPoint[]> {
+    return this.get<ChartPoint[]>('/dashboard/formats');
   }
 
-  getDecades() {
-    return this.get<{ decade: string; count: number }[]>('/dashboard/decades');
+  getDecades(): Observable<ChartPoint[]> {
+    return this.get<ChartPoint[]>('/dashboard/decades');
   }
 
-  getCountries() {
-    return this.get<{ country: string; count: number }[]>('/dashboard/countries');
+  getCountries(): Observable<ChartPoint[]> {
+    return this.get<ChartPoint[]>('/dashboard/countries');
   }
 
-  getValuableReleases() {
-    return this.get<any[]>('/dashboard/valuable-releases');
+  getValuableReleases(): Observable<ValuableRelease[]> {
+    return this.get<ValuableRelease[]>('/dashboard/valuable-releases');
   }
 
-  getInsights() {
+  getInsights(): Observable<string[]> {
     return this.get<string[]>('/dashboard/insights');
   }
 
   // Collection
-  getCollection(params?: Record<string, string>) {
-    return this.get<{ items: any[]; total: number; page: number; pageSize: number }>(
+  getCollection(
+    params?: Record<string, string>
+  ): Observable<{ items: CollectionItem[]; total: number; page: number; pageSize: number }> {
+    return this.get<{ items: CollectionItem[]; total: number; page: number; pageSize: number }>(
       '/collection',
       params
     );
   }
 
-  getCollectionItem(id: string) {
-    return this.get<{ item: any }>(`/collection/${id}`);
+  getCollectionItem(id: string): Observable<{ item: CollectionItem }> {
+    return this.get<{ item: CollectionItem }>(`/collection/${id}`);
   }
 }

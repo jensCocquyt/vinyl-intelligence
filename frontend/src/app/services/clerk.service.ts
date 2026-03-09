@@ -1,10 +1,28 @@
 import { Injectable, signal } from '@angular/core';
 import { environment } from '../../environments/environment';
 
+interface ClerkUser {
+  id: string;
+}
+
+interface ClerkInstance {
+  user: ClerkUser | null | undefined;
+  session: { getToken(): Promise<string | null> } | null | undefined;
+  load(options?: Record<string, unknown>): Promise<void>;
+  addListener(callback: (resources: { user: ClerkUser | null | undefined }) => void): () => void;
+  redirectToSignIn(options?: { redirectUrl?: string }): void;
+  openSignIn(): void;
+  openSignUp(): void;
+  signOut(): Promise<void>;
+  mountSignIn(element: HTMLElement): void;
+  mountSignUp(element: HTMLElement): void;
+  unmountSignIn(element: HTMLElement): void;
+  unmountSignUp(element: HTMLElement): void;
+}
+
 @Injectable({ providedIn: 'root' })
 export class ClerkService {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private clerk: any;
+  private clerk: ClerkInstance | null = null;
 
   readonly isLoaded = signal(false);
   readonly isSignedIn = signal(false);
@@ -13,9 +31,7 @@ export class ClerkService {
   async init(): Promise<void> {
     try {
       const module = await import('@clerk/clerk-js');
-      // clerk-js default export is the Clerk constructor
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const ClerkClass = (module as any).default ?? (module as any).Clerk ?? module;
+      const ClerkClass = module.default as unknown as new (key: string) => ClerkInstance;
       this.clerk = new ClerkClass(environment.clerkPublishableKey);
       await this.clerk.load({
         sdkMetadata: {
@@ -28,13 +44,12 @@ export class ClerkService {
       this.isSignedIn.set(!!this.clerk.user);
       this.userId.set(this.clerk.user?.id ?? null);
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      this.clerk.addListener(({ user }: { user: any }) => {
+      this.clerk.addListener(({ user }) => {
         this.isSignedIn.set(!!user);
         this.userId.set(user?.id ?? null);
       });
-    } catch (err) {
-      console.error('[Clerk] Failed to initialize:', err);
+    } catch (_err) {
+      console.error('[Clerk] Failed to initialize:', _err);
     } finally {
       this.isLoaded.set(true);
     }
@@ -76,8 +91,7 @@ export class ClerkService {
     this.clerk?.unmountSignUp(element);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  get user(): any {
+  get user(): ClerkUser | null | undefined {
     return this.clerk?.user ?? null;
   }
 }

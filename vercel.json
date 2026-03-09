@@ -1,0 +1,8 @@
+{
+  "buildCommand": "pnpm --filter frontend build",
+  "outputDirectory": "frontend/dist/frontend/browser",
+  "installCommand": "pnpm install --frozen-lockfile",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}

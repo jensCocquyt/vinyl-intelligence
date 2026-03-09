@@ -1,12 +1,14 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { ClerkService } from '../../services/clerk.service';
+import type { DiscogsConnection, SyncJob } from '../../types/models';
 
 @Component({
   selector: 'app-settings',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.scss',
@@ -16,9 +18,11 @@ export class SettingsComponent implements OnInit {
   private clerk = inject(ClerkService);
   private route = inject(ActivatedRoute);
 
-  connection = signal<any>(null);
-  syncStatus = signal<any>(null);
-  syncHistory = signal<any[]>([]);
+  connection = signal<DiscogsConnection | null>(null);
+  syncStatus = signal<{ connection: DiscogsConnection | null; latestJob: SyncJob | null } | null>(
+    null
+  );
+  syncHistory = signal<SyncJob[]>([]);
   syncing = signal(false);
   message = signal<string | null>(null);
 
@@ -76,8 +80,8 @@ export class SettingsComponent implements OnInit {
         this.syncing.set(false);
         setTimeout(() => this.load(), 3000);
       },
-      error: (err) => {
-        this.message.set(err.error?.error ?? 'Sync failed.');
+      error: (_err: { error?: { error?: string } }) => {
+        this.message.set(_err?.error?.error ?? 'Sync failed.');
         this.syncing.set(false);
       },
     });

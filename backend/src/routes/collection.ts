@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { getAuth } from '@clerk/express';
-import { Prisma } from '@prisma/client';
+import type { Prisma } from '@prisma/client';
 import { requireAuth } from '../middleware/auth';
 import { prisma } from '../lib/prisma';
 
@@ -75,7 +75,7 @@ collectionRouter.get('/', requireAuth, async (req, res) => {
     ]);
 
     res.json({ items, total, page: parseInt(page), pageSize: take });
-  } catch (err) {
+  } catch (_err) {
     res.status(500).json({ error: 'Failed to fetch collection' });
   }
 });
@@ -102,7 +102,7 @@ collectionRouter.get('/:id', requireAuth, async (req, res) => {
       return;
     }
     res.json({ item });
-  } catch (err) {
+  } catch (_err) {
     res.status(500).json({ error: 'Failed to fetch item' });
   }
 });

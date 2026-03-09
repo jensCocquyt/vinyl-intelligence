@@ -46,7 +46,7 @@ syncRouter.get('/sync-status', requireAuth, async (req, res) => {
       }),
     ]);
     res.json({ connection, latestJob });
-  } catch (err) {
+  } catch (_err) {
     res.status(500).json({ error: 'Failed to get sync status' });
   }
 });
@@ -61,7 +61,7 @@ syncRouter.get('/sync-history', requireAuth, async (req, res) => {
       take: 20,
     });
     res.json({ jobs });
-  } catch (err) {
+  } catch (_err) {
     res.status(500).json({ error: 'Failed to get sync history' });
   }
 });

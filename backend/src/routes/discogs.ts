@@ -14,8 +14,8 @@ discogsRouter.post('/connect/start', requireAuth, async (req, res) => {
     const { userId } = getAuth(req);
     const { authorizeUrl } = await discogsService.getRequestToken(userId!);
     res.json({ authorizeUrl });
-  } catch (err) {
-    console.error('OAuth start error:', err);
+  } catch (_err) {
+    console.error('OAuth start error:', _err);
     res.status(500).json({ error: 'Failed to start OAuth flow' });
   }
 });
@@ -26,8 +26,8 @@ discogsRouter.get('/connect/callback', async (req, res) => {
   try {
     await discogsService.handleCallback(oauth_token, oauth_verifier);
     res.redirect(`${process.env.FRONTEND_URL}/settings?connected=true`);
-  } catch (err) {
-    console.error('OAuth callback error:', err);
+  } catch (_err) {
+    console.error('OAuth callback error:', _err);
     res.redirect(`${process.env.FRONTEND_URL}/settings?error=connection_failed`);
   }
 });
@@ -47,7 +47,7 @@ discogsRouter.get('/connection', requireAuth, async (req, res) => {
       },
     });
     res.json({ connection });
-  } catch (err) {
+  } catch (_err) {
     res.status(500).json({ error: 'Failed to get connection' });
   }
 });
@@ -58,7 +58,7 @@ discogsRouter.delete('/connection', requireAuth, async (req, res) => {
     const { userId } = getAuth(req);
     await prisma.discogsConnection.deleteMany({ where: { userId: userId! } });
     res.json({ ok: true });
-  } catch (err) {
+  } catch (_err) {
     res.status(500).json({ error: 'Failed to disconnect' });
   }
 });

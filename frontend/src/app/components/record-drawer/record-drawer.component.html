@@ -1,7 +1,14 @@
-<div class="overlay" (click)="close.emit()"></div>
+<div
+  class="overlay"
+  role="button"
+  tabindex="0"
+  aria-label="Close drawer"
+  (click)="closed.emit()"
+  (keydown.escape)="closed.emit()"
+></div>
 
 <aside class="drawer">
-  <button class="close-btn" (click)="close.emit()">✕</button>
+  <button class="close-btn" (click)="closed.emit()">✕</button>
 
   <div class="drawer-content">
     @if (item.coverImageUrl) {
@@ -30,7 +37,7 @@
       @if (item.styles?.length) {
         <dt>Style</dt><dd>{{ joinField(item.styles, 'style') }}</dd>
       }
-      @if (item.valueSnapshots?.[0]?.medianValue != null) {
+      @if (item.valueSnapshots?.[0]?.medianValue !== null && item.valueSnapshots?.[0]?.medianValue !== undefined) {
         <dt>Median Value</dt>
         <dd>${{ (+item.valueSnapshots[0].medianValue).toFixed(2) }}</dd>
       }

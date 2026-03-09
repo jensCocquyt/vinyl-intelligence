@@ -9,15 +9,7 @@ import { ClerkService } from '../../services/clerk.service';
       <div class="auth-container" #signInEl></div>
     </div>
   `,
-  styles: [`
-    .auth-page {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      background: var(--bg);
-    }
-  `],
+  styleUrl: './sign-in.component.scss',
 })
 export class SignInComponent implements OnInit, OnDestroy {
   @ViewChild('signInEl', { static: true }) signInEl!: ElementRef<HTMLDivElement>;

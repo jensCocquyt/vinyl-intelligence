@@ -1,12 +1,14 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { RecordDrawerComponent } from '../../components/record-drawer/record-drawer.component';
+import type { CollectionItem } from '../../types/models';
 
 @Component({
   selector: 'app-collection',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, FormsModule, RecordDrawerComponent],
   templateUrl: './collection.component.html',
   styleUrl: './collection.component.scss',
@@ -14,10 +16,10 @@ import { RecordDrawerComponent } from '../../components/record-drawer/record-dra
 export class CollectionComponent implements OnInit {
   private api = inject(ApiService);
 
-  items = signal<any[]>([]);
+  items = signal<CollectionItem[]>([]);
   total = signal(0);
   loading = signal(true);
-  selectedItem = signal<any>(null);
+  selectedItem = signal<CollectionItem | null>(null);
 
   search = '';
   genre = '';
@@ -64,7 +66,7 @@ export class CollectionComponent implements OnInit {
     this.load();
   }
 
-  openItem(item: any): void {
+  openItem(item: CollectionItem): void {
     this.api.getCollectionItem(item.id).subscribe((res) => {
       this.selectedItem.set(res.item);
     });

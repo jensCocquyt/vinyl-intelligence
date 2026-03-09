@@ -1,0 +1,134 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id // Clerk user ID
+  email     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  discogsConnection DiscogsConnection?
+  collectionItems   CollectionItem[]
+  syncJobs          SyncJob[]
+}
+
+model DiscogsConnection {
+  id                  String    @id @default(cuid())
+  userId              String    @unique
+  discogsUsername     String
+  accessToken         String
+  accessTokenSecret   String
+  connectedAt         DateTime  @default(now())
+  lastValidatedAt     DateTime?
+  lastSyncStartedAt   DateTime?
+  lastSyncCompletedAt DateTime?
+  syncStatus          String    @default("idle")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model CollectionItem {
+  id                String    @id @default(cuid())
+  userId            String
+  discogsReleaseId  Int
+  discogsInstanceId Int
+  folderId          Int       @default(0)
+  folderName        String?
+  artist            String
+  title             String
+  year              Int?
+  country           String?
+  coverImageUrl     String?
+  thumbImageUrl     String?
+  dateAdded         DateTime?
+  rawJson           Json
+  isDeleted         Boolean   @default(false)
+  importedAt        DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  user           User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  genres         CollectionItemGenre[]
+  styles         CollectionItemStyle[]
+  formats        CollectionItemFormat[]
+  labels         CollectionItemLabel[]
+  valueSnapshots ReleaseValueSnapshot[]
+
+  @@unique([userId, discogsInstanceId])
+  @@index([userId])
+  @@index([userId, isDeleted])
+}
+
+model CollectionItemGenre {
+  id               String @id @default(cuid())
+  collectionItemId String
+  genre            String
+
+  collectionItem CollectionItem @relation(fields: [collectionItemId], references: [id], onDelete: Cascade)
+
+  @@index([collectionItemId])
+}
+
+model CollectionItemStyle {
+  id               String @id @default(cuid())
+  collectionItemId String
+  style            String
+
+  collectionItem CollectionItem @relation(fields: [collectionItemId], references: [id], onDelete: Cascade)
+
+  @@index([collectionItemId])
+}
+
+model CollectionItemFormat {
+  id               String @id @default(cuid())
+  collectionItemId String
+  format           String
+
+  collectionItem CollectionItem @relation(fields: [collectionItemId], references: [id], onDelete: Cascade)
+
+  @@index([collectionItemId])
+}
+
+model CollectionItemLabel {
+  id               String @id @default(cuid())
+  collectionItemId String
+  label            String
+
+  collectionItem CollectionItem @relation(fields: [collectionItemId], references: [id], onDelete: Cascade)
+
+  @@index([collectionItemId])
+}
+
+model ReleaseValueSnapshot {
+  id               String   @id @default(cuid())
+  collectionItemId String
+  lowestPrice      Decimal?
+  medianValue      Decimal?
+  numForSale       Int?
+  capturedAt       DateTime @default(now())
+
+  collectionItem CollectionItem @relation(fields: [collectionItemId], references: [id], onDelete: Cascade)
+
+  @@index([collectionItemId])
+}
+
+model SyncJob {
+  id             String    @id @default(cuid())
+  userId         String
+  status         String    @default("pending")
+  startedAt      DateTime?
+  completedAt    DateTime?
+  itemsProcessed Int       @default(0)
+  pagesProcessed Int       @default(0)
+  error          String?
+  createdAt      DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}

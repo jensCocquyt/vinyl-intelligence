@@ -1,0 +1,145 @@
+<div class="dashboard">
+  @if (loading()) {
+    <div class="loading">Loading dashboard...</div>
+  } @else if (error()) {
+    <div class="error">{{ error() }}</div>
+  } @else {
+    <!-- Summary Cards -->
+    <section class="summary-cards">
+      <div class="card">
+        <span class="label">Total Records</span>
+        <span class="value">{{ summary()?.totalRecords ?? '—' }}</span>
+      </div>
+      <div class="card">
+        <span class="label">Valued Records</span>
+        <span class="value">{{ summary()?.valuedRecords ?? '—' }}</span>
+      </div>
+      <div class="card">
+        <span class="label">Est. Median Value</span>
+        <span class="value">
+          {{ summary()?.estimatedMedianValue != null ? ('$' + summary().estimatedMedianValue.toFixed(2)) : '—' }}
+        </span>
+      </div>
+    </section>
+
+    <!-- Value Overview -->
+    <section class="value-overview card">
+      <h2>Value Overview</h2>
+      <div class="value-row">
+        <div>
+          <span class="label">Min</span>
+          <span class="value">{{ value()?.minValue != null ? ('$' + value().minValue.toFixed(2)) : '—' }}</span>
+        </div>
+        <div>
+          <span class="label">Median</span>
+          <span class="value">{{ value()?.medianValue != null ? ('$' + value().medianValue.toFixed(2)) : '—' }}</span>
+        </div>
+        <div>
+          <span class="label">Max</span>
+          <span class="value">{{ value()?.maxValue != null ? ('$' + value().maxValue.toFixed(2)) : '—' }}</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Insights -->
+    @if (insights().length) {
+      <section class="insights">
+        @for (insight of insights(); track insight) {
+          <div class="insight-card">💡 {{ insight }}</div>
+        }
+      </section>
+    }
+
+    <!-- Charts Grid -->
+    <section class="charts-grid">
+      <div class="card chart-card">
+        <h2>Top Artists</h2>
+        <app-bar-chart
+          [labels]="topArtists().map(a => a.artist)"
+          [data]="topArtists().map(a => a.count)"
+          label="Records"
+        />
+      </div>
+
+      <div class="card chart-card">
+        <h2>Genre Distribution</h2>
+        <app-bar-chart
+          [labels]="topGenres().map(g => g.genre)"
+          [data]="topGenres().map(g => g.count)"
+          label="Records"
+        />
+      </div>
+
+      <div class="card chart-card">
+        <h2>Style Distribution</h2>
+        <app-bar-chart
+          [labels]="topStyles().map(s => s.style)"
+          [data]="topStyles().map(s => s.count)"
+          label="Records"
+        />
+      </div>
+
+      <div class="card chart-card">
+        <h2>Format Distribution</h2>
+        <app-bar-chart
+          [labels]="formats().map(f => f.format)"
+          [data]="formats().map(f => f.count)"
+          label="Records"
+        />
+      </div>
+
+      <div class="card chart-card">
+        <h2>Decade Distribution</h2>
+        <app-bar-chart
+          [labels]="decades().map(d => d.decade)"
+          [data]="decades().map(d => d.count)"
+          label="Records"
+        />
+      </div>
+
+      <div class="card chart-card">
+        <h2>Country Distribution</h2>
+        <app-bar-chart
+          [labels]="countries().map(c => c.country ?? 'Unknown')"
+          [data]="countries().map(c => c.count)"
+          label="Records"
+        />
+      </div>
+    </section>
+
+    <!-- Most Valuable Records -->
+    @if (valuableReleases().length) {
+      <section class="valuable-releases card">
+        <h2>Most Valuable Records</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Cover</th>
+              <th>Artist</th>
+              <th>Title</th>
+              <th>Year</th>
+              <th>Country</th>
+              <th>Median Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of valuableReleases(); track item.id) {
+              <tr>
+                <td>
+                  @if (item.coverImageUrl) {
+                    <img [src]="item.coverImageUrl" [alt]="item.title" class="thumb" />
+                  }
+                </td>
+                <td>{{ item.artist }}</td>
+                <td>{{ item.title }}</td>
+                <td>{{ item.year ?? '—' }}</td>
+                <td>{{ item.country ?? '—' }}</td>
+                <td>${{ item.medianValue.toFixed(2) }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </section>
+    }
+  }
+</div>

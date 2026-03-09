@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx:*)",
+      "Bash(where pnpm)",
+      "Read(//c/Users/cocqu/AppData/Roaming/**)",
+      "Bash(npm:*)",
+      "Bash(pnpm install:*)",
+      "Bash(pnpm add:*)",
+      "WebFetch(domain:localhost)",
+      "Read(//c/tmp/**)",
+      "Bash(node -e \"require\\(''playwright''\\)\")",
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_console_messages",
+      "mcp__playwright__browser_take_screenshot",
+      "mcp__playwright__browser_evaluate",
+      "Bash(git:*)"
+    ]
+  }
+}

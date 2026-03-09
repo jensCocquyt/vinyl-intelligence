@@ -1,0 +1,48 @@
+<div class="overlay" (click)="close.emit()"></div>
+
+<aside class="drawer">
+  <button class="close-btn" (click)="close.emit()">✕</button>
+
+  <div class="drawer-content">
+    @if (item.coverImageUrl) {
+      <img [src]="item.coverImageUrl" [alt]="item.title" class="cover" />
+    }
+
+    <h2 class="title">{{ item.title }}</h2>
+    <p class="artist">{{ item.artist }}</p>
+
+    <dl class="meta">
+      @if (item.year) {
+        <dt>Year</dt><dd>{{ item.year }}</dd>
+      }
+      @if (item.country) {
+        <dt>Country</dt><dd>{{ item.country }}</dd>
+      }
+      @if (item.labels?.length) {
+        <dt>Label</dt><dd>{{ joinField(item.labels, 'label') }}</dd>
+      }
+      @if (item.formats?.length) {
+        <dt>Format</dt><dd>{{ joinField(item.formats, 'format') }}</dd>
+      }
+      @if (item.genres?.length) {
+        <dt>Genre</dt><dd>{{ joinField(item.genres, 'genre') }}</dd>
+      }
+      @if (item.styles?.length) {
+        <dt>Style</dt><dd>{{ joinField(item.styles, 'style') }}</dd>
+      }
+      @if (item.valueSnapshots?.[0]?.medianValue != null) {
+        <dt>Median Value</dt>
+        <dd>${{ (+item.valueSnapshots[0].medianValue).toFixed(2) }}</dd>
+      }
+    </dl>
+
+    <a
+      class="discogs-link"
+      [href]="'https://www.discogs.com/release/' + item.discogsReleaseId"
+      target="_blank"
+      rel="noopener"
+    >
+      View on Discogs ↗
+    </a>
+  </div>
+</aside>

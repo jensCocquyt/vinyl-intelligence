@@ -1,0 +1,77 @@
+<div class="settings-page">
+  <h1>Settings</h1>
+
+  @if (message()) {
+    <div class="message">{{ message() }}</div>
+  }
+
+  <!-- Discogs Connection -->
+  <section class="card">
+    <h2>Discogs Connection</h2>
+
+    @if (connection()) {
+      <div class="connection-status connected">
+        <span class="dot"></span>
+        Connected as <strong>{{ connection().discogsUsername }}</strong>
+      </div>
+      <p class="meta">
+        Connected {{ connection().connectedAt | date:'mediumDate' }} &nbsp;·&nbsp;
+        @if (connection().lastSyncCompletedAt) {
+          Last synced {{ connection().lastSyncCompletedAt | date:'medium' }}
+        } @else {
+          Never synced
+        }
+      </p>
+      <div class="actions">
+        <button class="btn-primary" (click)="startSync()" [disabled]="syncing() || connection().syncStatus === 'syncing'">
+          {{ syncing() || connection().syncStatus === 'syncing' ? 'Syncing…' : 'Sync Now' }}
+        </button>
+        <button class="btn-secondary" (click)="connectDiscogs()">Reconnect</button>
+        <button class="btn-danger" (click)="disconnectDiscogs()">Disconnect</button>
+      </div>
+    } @else {
+      <div class="connection-status disconnected">
+        <span class="dot"></span>
+        Not connected
+      </div>
+      <div class="actions">
+        <button class="btn-primary" (click)="connectDiscogs()">Connect Discogs</button>
+      </div>
+    }
+  </section>
+
+  <!-- Sync History -->
+  @if (syncHistory().length) {
+    <section class="card">
+      <h2>Sync History</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Status</th>
+            <th>Started</th>
+            <th>Completed</th>
+            <th>Items</th>
+            <th>Pages</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (job of syncHistory(); track job.id) {
+            <tr>
+              <td><span class="status-badge" [class]="job.status">{{ job.status }}</span></td>
+              <td>{{ job.startedAt ? (job.startedAt | date:'medium') : '—' }}</td>
+              <td>{{ job.completedAt ? (job.completedAt | date:'medium') : '—' }}</td>
+              <td>{{ job.itemsProcessed }}</td>
+              <td>{{ job.pagesProcessed }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </section>
+  }
+
+  <!-- Account -->
+  <section class="card">
+    <h2>Account</h2>
+    <button class="btn-secondary" (click)="signOut()">Sign Out</button>
+  </section>
+</div>

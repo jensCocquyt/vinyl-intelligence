@@ -6,7 +6,12 @@ import { BarChartComponent } from '../../components/bar-chart/bar-chart.componen
 import type {
   DashboardSummary,
   DashboardValue,
-  ChartPoint,
+  ArtistCount,
+  GenreCount,
+  StyleCount,
+  FormatCount,
+  DecadeCount,
+  CountryCount,
   ValuableRelease,
 } from '../../types/models';
 
@@ -16,19 +21,19 @@ import type {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, BarChartComponent],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss',
+  styleUrl: './dashboard.component.css',
 })
 export class DashboardComponent implements OnInit {
   private api = inject(ApiService);
 
   summary = signal<DashboardSummary | null>(null);
   value = signal<DashboardValue | null>(null);
-  topArtists = signal<ChartPoint[]>([]);
-  topGenres = signal<ChartPoint[]>([]);
-  topStyles = signal<ChartPoint[]>([]);
-  formats = signal<ChartPoint[]>([]);
-  decades = signal<ChartPoint[]>([]);
-  countries = signal<ChartPoint[]>([]);
+  topArtists = signal<ArtistCount[]>([]);
+  topGenres = signal<GenreCount[]>([]);
+  topStyles = signal<StyleCount[]>([]);
+  formats = signal<FormatCount[]>([]);
+  decades = signal<DecadeCount[]>([]);
+  countries = signal<CountryCount[]>([]);
   valuableReleases = signal<ValuableRelease[]>([]);
   insights = signal<string[]>([]);
   loading = signal(true);

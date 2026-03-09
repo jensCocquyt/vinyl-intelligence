@@ -11,7 +11,7 @@ import type { CollectionItem } from '../../types/models';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, FormsModule, RecordDrawerComponent],
   templateUrl: './collection.component.html',
-  styleUrl: './collection.component.scss',
+  styleUrl: './collection.component.css',
 })
 export class CollectionComponent implements OnInit {
   private api = inject(ApiService);
@@ -92,5 +92,11 @@ export class CollectionComponent implements OnInit {
 
   get totalPages(): number {
     return Math.ceil(this.total() / this.pageSize);
+  }
+
+  formatItemValue(item: CollectionItem): string {
+    const snap = item.valueSnapshots[0];
+    if (!snap || snap.medianValue == null) return '—';
+    return '$' + (+snap.medianValue).toFixed(2);
   }
 }

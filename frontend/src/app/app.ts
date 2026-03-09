@@ -9,7 +9,7 @@ import { ClerkService } from './services/clerk.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterOutlet, RouterLink, RouterLinkActive, CommonModule],
   templateUrl: './app.html',
-  styleUrl: './app.scss',
+  styleUrl: './app.css',
 })
 export class App {
   protected clerk = inject(ClerkService);

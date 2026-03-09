@@ -17,7 +17,8 @@
   min-width: 220px;
 }
 
-input, select {
+input,
+select {
   background: var(--surface);
   border: 1px solid var(--border);
   color: var(--text);
@@ -52,34 +53,37 @@ input, select {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.875rem;
+}
 
-  th {
-    text-align: left;
-    padding: 0.5rem 0.75rem;
-    color: var(--text-muted);
-    border-bottom: 1px solid var(--border);
-    font-weight: 500;
-    white-space: nowrap;
-  }
+.collection-table th {
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+  font-weight: 500;
+  white-space: nowrap;
+}
 
-  td {
-    padding: 0.6rem 0.75rem;
-    border-bottom: 1px solid var(--border);
-    color: var(--text);
-  }
+.collection-table td {
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
 
-  .row {
-    cursor: pointer;
-    transition: background 0.15s;
-    &:hover { background: var(--surface); }
-  }
+.collection-table .row {
+  cursor: pointer;
+  transition: background 0.15s;
+}
 
-  .thumb {
-    width: 36px;
-    height: 36px;
-    object-fit: cover;
-    border-radius: 3px;
-  }
+.collection-table .row:hover {
+  background: var(--surface);
+}
+
+.collection-table .thumb {
+  width: 36px;
+  height: 36px;
+  object-fit: cover;
+  border-radius: 3px;
 }
 
 .pagination {
@@ -87,19 +91,19 @@ input, select {
   gap: 0.75rem;
   justify-content: center;
   margin-top: 2rem;
+}
 
-  button {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    color: var(--text);
-    padding: 0.5rem 1.25rem;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 0.875rem;
+.pagination button {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 0.5rem 1.25rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.875rem;
+}
 
-    &:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-    }
-  }
+.pagination button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }

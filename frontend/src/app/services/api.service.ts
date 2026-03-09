@@ -10,7 +10,12 @@ import type {
   DiscogsConnection,
   SyncJob,
   ValuableRelease,
-  ChartPoint,
+  ArtistCount,
+  GenreCount,
+  StyleCount,
+  FormatCount,
+  DecadeCount,
+  CountryCount,
 } from '../types/models';
 
 @Injectable({ providedIn: 'root' })
@@ -83,28 +88,28 @@ export class ApiService {
     return this.get<DashboardValue>('/dashboard/value');
   }
 
-  getTopArtists(): Observable<ChartPoint[]> {
-    return this.get<ChartPoint[]>('/dashboard/top-artists');
+  getTopArtists(): Observable<ArtistCount[]> {
+    return this.get<ArtistCount[]>('/dashboard/top-artists');
   }
 
-  getTopGenres(): Observable<ChartPoint[]> {
-    return this.get<ChartPoint[]>('/dashboard/top-genres');
+  getTopGenres(): Observable<GenreCount[]> {
+    return this.get<GenreCount[]>('/dashboard/top-genres');
   }
 
-  getTopStyles(): Observable<ChartPoint[]> {
-    return this.get<ChartPoint[]>('/dashboard/top-styles');
+  getTopStyles(): Observable<StyleCount[]> {
+    return this.get<StyleCount[]>('/dashboard/top-styles');
   }
 
-  getFormats(): Observable<ChartPoint[]> {
-    return this.get<ChartPoint[]>('/dashboard/formats');
+  getFormats(): Observable<FormatCount[]> {
+    return this.get<FormatCount[]>('/dashboard/formats');
   }
 
-  getDecades(): Observable<ChartPoint[]> {
-    return this.get<ChartPoint[]>('/dashboard/decades');
+  getDecades(): Observable<DecadeCount[]> {
+    return this.get<DecadeCount[]>('/dashboard/decades');
   }
 
-  getCountries(): Observable<ChartPoint[]> {
-    return this.get<ChartPoint[]>('/dashboard/countries');
+  getCountries(): Observable<CountryCount[]> {
+    return this.get<CountryCount[]>('/dashboard/countries');
   }
 
   getValuableReleases(): Observable<ValuableRelease[]> {

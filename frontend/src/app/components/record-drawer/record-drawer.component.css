@@ -60,16 +60,16 @@
   gap: 0.5rem 1rem;
   font-size: 0.875rem;
   margin-bottom: 1.5rem;
+}
 
-  dt {
-    color: var(--text-muted);
-    white-space: nowrap;
-  }
+.meta dt {
+  color: var(--text-muted);
+  white-space: nowrap;
+}
 
-  dd {
-    color: var(--text);
-    margin: 0;
-  }
+.meta dd {
+  color: var(--text);
+  margin: 0;
 }
 
 .discogs-link {
@@ -77,6 +77,8 @@
   color: var(--accent);
   text-decoration: none;
   font-size: 0.875rem;
+}
 
-  &:hover { text-decoration: underline; }
+.discogs-link:hover {
+  text-decoration: underline;
 }

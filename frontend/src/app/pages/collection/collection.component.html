@@ -74,12 +74,8 @@
             <td>{{ item.title }}</td>
             <td>{{ item.year ?? '—' }}</td>
             <td>{{ item.country ?? '—' }}</td>
-            <td>{{ item.formats?.[0]?.format ?? '—' }}</td>
-            <td>
-              {{ item.valueSnapshots?.[0]?.medianValue !== null
-                ? ('$' + (+item.valueSnapshots[0].medianValue).toFixed(2))
-                : '—' }}
-            </td>
+            <td>{{ item.formats[0]?.format ?? '—' }}</td>
+            <td>{{ formatItemValue(item) }}</td>
             <td>{{ item.dateAdded ? (item.dateAdded | date:'mediumDate') : '—' }}</td>
           </tr>
         }

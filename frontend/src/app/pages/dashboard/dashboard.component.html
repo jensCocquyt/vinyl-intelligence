@@ -5,41 +5,45 @@
     <div class="error">{{ error() }}</div>
   } @else {
     <!-- Summary Cards -->
-    <section class="summary-cards">
-      <div class="card">
-        <span class="label">Total Records</span>
-        <span class="value">{{ summary()?.totalRecords ?? '—' }}</span>
-      </div>
-      <div class="card">
-        <span class="label">Valued Records</span>
-        <span class="value">{{ summary()?.valuedRecords ?? '—' }}</span>
-      </div>
-      <div class="card">
-        <span class="label">Est. Median Value</span>
-        <span class="value">
-          {{ summary()?.estimatedMedianValue !== null ? ('$' + summary().estimatedMedianValue.toFixed(2)) : '—' }}
-        </span>
-      </div>
-    </section>
+    @if (summary(); as s) {
+      <section class="summary-cards">
+        <div class="card">
+          <span class="label">Total Records</span>
+          <span class="value">{{ s.totalRecords }}</span>
+        </div>
+        <div class="card">
+          <span class="label">Valued Records</span>
+          <span class="value">{{ s.valuedRecords }}</span>
+        </div>
+        <div class="card">
+          <span class="label">Est. Median Value</span>
+          <span class="value">
+            {{ s.estimatedMedianValue !== null ? ('$' + s.estimatedMedianValue.toFixed(2)) : '—' }}
+          </span>
+        </div>
+      </section>
+    }
 
     <!-- Value Overview -->
-    <section class="value-overview card">
-      <h2>Value Overview</h2>
-      <div class="value-row">
-        <div>
-          <span class="label">Min</span>
-          <span class="value">{{ value()?.minValue !== null ? ('$' + value().minValue.toFixed(2)) : '—' }}</span>
+    @if (value(); as v) {
+      <section class="value-overview card">
+        <h2>Value Overview</h2>
+        <div class="value-row">
+          <div>
+            <span class="label">Min</span>
+            <span class="value">{{ v.minValue !== null ? ('$' + v.minValue.toFixed(2)) : '—' }}</span>
+          </div>
+          <div>
+            <span class="label">Median</span>
+            <span class="value">{{ v.medianValue !== null ? ('$' + v.medianValue.toFixed(2)) : '—' }}</span>
+          </div>
+          <div>
+            <span class="label">Max</span>
+            <span class="value">{{ v.maxValue !== null ? ('$' + v.maxValue.toFixed(2)) : '—' }}</span>
+          </div>
         </div>
-        <div>
-          <span class="label">Median</span>
-          <span class="value">{{ value()?.medianValue !== null ? ('$' + value().medianValue.toFixed(2)) : '—' }}</span>
-        </div>
-        <div>
-          <span class="label">Max</span>
-          <span class="value">{{ value()?.maxValue !== null ? ('$' + value().maxValue.toFixed(2)) : '—' }}</span>
-        </div>
-      </div>
-    </section>
+      </section>
+    }
 
     <!-- Insights -->
     @if (insights().length) {

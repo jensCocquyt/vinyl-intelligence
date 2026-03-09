@@ -9,22 +9,22 @@
   <section class="card">
     <h2>Discogs Connection</h2>
 
-    @if (connection()) {
+    @if (connection(); as conn) {
       <div class="connection-status connected">
         <span class="dot"></span>
-        Connected as <strong>{{ connection().discogsUsername }}</strong>
+        Connected as <strong>{{ conn.discogsUsername }}</strong>
       </div>
       <p class="meta">
-        Connected {{ connection().connectedAt | date:'mediumDate' }} &nbsp;·&nbsp;
-        @if (connection().lastSyncCompletedAt) {
-          Last synced {{ connection().lastSyncCompletedAt | date:'medium' }}
+        Connected {{ conn.connectedAt | date:'mediumDate' }} &nbsp;·&nbsp;
+        @if (conn.lastSyncCompletedAt) {
+          Last synced {{ conn.lastSyncCompletedAt | date:'medium' }}
         } @else {
           Never synced
         }
       </p>
       <div class="actions">
-        <button class="btn-primary" (click)="startSync()" [disabled]="syncing() || connection().syncStatus === 'syncing'">
-          {{ syncing() || connection().syncStatus === 'syncing' ? 'Syncing…' : 'Sync Now' }}
+        <button class="btn-primary" (click)="startSync()" [disabled]="syncing() || conn.syncStatus === 'syncing'">
+          {{ syncing() || conn.syncStatus === 'syncing' ? 'Syncing…' : 'Sync Now' }}
         </button>
         <button class="btn-secondary" (click)="connectDiscogs()">Reconnect</button>
         <button class="btn-danger" (click)="disconnectDiscogs()">Disconnect</button>

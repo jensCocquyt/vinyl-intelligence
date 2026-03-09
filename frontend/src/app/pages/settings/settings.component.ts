@@ -11,7 +11,7 @@ import type { DiscogsConnection, SyncJob } from '../../types/models';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule],
   templateUrl: './settings.component.html',
-  styleUrl: './settings.component.scss',
+  styleUrl: './settings.component.css',
 })
 export class SettingsComponent implements OnInit {
   private api = inject(ApiService);

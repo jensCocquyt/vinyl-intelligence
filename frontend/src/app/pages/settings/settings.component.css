@@ -5,12 +5,12 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+}
 
-  h1 {
-    margin: 0 0 0.5rem;
-    font-size: 1.5rem;
-    color: var(--text);
-  }
+.settings-page h1 {
+  margin: 0 0 0.5rem;
+  font-size: 1.5rem;
+  color: var(--text);
 }
 
 .message {
@@ -27,14 +27,14 @@
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 1.5rem;
+}
 
-  h2 {
-    margin: 0 0 1rem;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--text-muted);
-  }
+.card h2 {
+  margin: 0 0 1rem;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
 }
 
 .connection-status {
@@ -44,15 +44,20 @@
   margin-bottom: 0.5rem;
   font-size: 0.875rem;
   color: var(--text);
+}
 
-  .dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-  }
+.connection-status .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
 
-  &.connected .dot { background: #22c55e; }
-  &.disconnected .dot { background: #6b7280; }
+.connection-status.connected .dot {
+  background: #22c55e;
+}
+
+.connection-status.disconnected .dot {
+  background: #6b7280;
 }
 
 .meta {
@@ -74,8 +79,11 @@ button {
   cursor: pointer;
   border: none;
   transition: opacity 0.15s;
+}
 
-  &:disabled { opacity: 0.5; cursor: not-allowed; }
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .btn-primary {
@@ -99,20 +107,20 @@ table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.8rem;
+}
 
-  th {
-    text-align: left;
-    padding: 0.4rem 0.6rem;
-    color: var(--text-muted);
-    border-bottom: 1px solid var(--border);
-    font-weight: 500;
-  }
+table th {
+  text-align: left;
+  padding: 0.4rem 0.6rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+  font-weight: 500;
+}
 
-  td {
-    padding: 0.5rem 0.6rem;
-    border-bottom: 1px solid var(--border);
-    color: var(--text);
-  }
+table td {
+  padding: 0.5rem 0.6rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
 }
 
 .status-badge {
@@ -120,8 +128,20 @@ table {
   border-radius: 4px;
   font-size: 0.75rem;
   font-weight: 500;
+}
 
-  &.completed { background: rgba(34, 197, 94, 0.15); color: #22c55e; }
-  &.running, &.pending { background: rgba(234, 179, 8, 0.15); color: #eab308; }
-  &.failed { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+.status-badge.completed {
+  background: rgba(34, 197, 94, 0.15);
+  color: #22c55e;
+}
+
+.status-badge.running,
+.status-badge.pending {
+  background: rgba(234, 179, 8, 0.15);
+  color: #eab308;
+}
+
+.status-badge.failed {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
 }

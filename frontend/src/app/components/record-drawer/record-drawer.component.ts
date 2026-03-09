@@ -8,7 +8,7 @@ import type { CollectionItem } from '../../types/models';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule],
   templateUrl: './record-drawer.component.html',
-  styleUrl: './record-drawer.component.scss',
+  styleUrl: './record-drawer.component.css',
 })
 export class RecordDrawerComponent {
   @Input() item!: CollectionItem;
@@ -16,5 +16,11 @@ export class RecordDrawerComponent {
 
   joinField(arr: { [key: string]: string }[], field: string): string {
     return arr?.map((x) => x[field]).join(', ') ?? '';
+  }
+
+  medianValue(): string | null {
+    const snap = this.item.valueSnapshots[0];
+    if (!snap || snap.medianValue == null) return null;
+    return '$' + (+snap.medianValue).toFixed(2);
   }
 }

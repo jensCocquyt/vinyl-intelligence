@@ -7,7 +7,8 @@
   gap: 2rem;
 }
 
-.loading, .error {
+.loading,
+.error {
   text-align: center;
   padding: 4rem;
   color: var(--text-muted);
@@ -42,16 +43,23 @@
   color: var(--text);
 }
 
-.value-overview {
-  h2 { margin: 0 0 1rem; font-size: 1rem; color: var(--text-muted); }
+.value-overview h2 {
+  margin: 0 0 1rem;
+  font-size: 1rem;
+  color: var(--text-muted);
+}
 
-  .value-row {
-    display: flex;
-    gap: 3rem;
+.value-row {
+  display: flex;
+  gap: 3rem;
+}
 
-    .label { font-size: 0.7rem; }
-    .value { font-size: 1.5rem; }
-  }
+.value-row .label {
+  font-size: 0.7rem;
+}
+
+.value-row .value {
+  font-size: 1.5rem;
 }
 
 .insights {
@@ -75,49 +83,45 @@
   gap: 1.5rem;
 }
 
-.chart-card {
-  h2 {
-    margin: 0 0 1rem;
-    font-size: 0.9rem;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
+.chart-card h2 {
+  margin: 0 0 1rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-.valuable-releases {
-  h2 {
-    margin: 0 0 1.5rem;
-    font-size: 0.9rem;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
+.valuable-releases h2 {
+  margin: 0 0 1.5rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
 
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.875rem;
-  }
+.valuable-releases table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
 
-  th {
-    text-align: left;
-    padding: 0.5rem 0.75rem;
-    color: var(--text-muted);
-    border-bottom: 1px solid var(--border);
-    font-weight: 500;
-  }
+.valuable-releases th {
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+  font-weight: 500;
+}
 
-  td {
-    padding: 0.75rem;
-    border-bottom: 1px solid var(--border);
-    color: var(--text);
-  }
+.valuable-releases td {
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
 
-  .thumb {
-    width: 40px;
-    height: 40px;
-    object-fit: cover;
-    border-radius: 4px;
-  }
+.thumb {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 4px;
 }

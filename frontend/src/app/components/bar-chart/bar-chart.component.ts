@@ -17,7 +17,7 @@ Chart.register(BarController, CategoryScale, LinearScale, BarElement, Tooltip);
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<canvas #canvas></canvas>`,
-  styleUrl: './bar-chart.component.scss',
+  styleUrl: './bar-chart.component.css',
 })
 export class BarChartComponent implements AfterViewInit, OnChanges, OnDestroy {
   @ViewChild('canvas') canvasRef!: ElementRef<HTMLCanvasElement>;

@@ -26,15 +26,12 @@ export interface DashboardValue {
   maxValue: number | null;
 }
 
-export interface ChartPoint {
-  count: number;
-  artist?: string;
-  genre?: string;
-  style?: string;
-  format?: string;
-  decade?: string;
-  country?: string | null;
-}
+export interface ArtistCount { artist: string; count: number; }
+export interface GenreCount { genre: string; count: number; }
+export interface StyleCount { style: string; count: number; }
+export interface FormatCount { format: string; count: number; }
+export interface DecadeCount { decade: string; count: number; }
+export interface CountryCount { country: string | null; count: number; }
 
 export interface ValuableRelease {
   id: string;
@@ -60,6 +57,7 @@ export interface CollectionItem {
   year: number | null;
   country: string | null;
   coverImageUrl: string | null;
+  thumbImageUrl: string | null;
   dateAdded: string | null;
   labels: { label: string }[];
   formats: { format: string }[];

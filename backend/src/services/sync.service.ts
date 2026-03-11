@@ -1,5 +1,6 @@
+import type { Prisma } from '@prisma/client';
 import { prisma } from '../lib/prisma';
-import { DiscogsService } from './discogs.service';
+import { DiscogsService, type DiscogsRelease } from './discogs.service';
 
 const discogsService = new DiscogsService();
 
@@ -63,9 +64,9 @@ export class SyncService {
 
       totalPages = data.pagination.pages;
 
-      for (const release of data.releases as any[]) {
+      for (const release of data.releases) {
         await this.upsertItem(userId, release);
-        seenInstanceIds.add(release.instance_id as number);
+        seenInstanceIds.add(release.instance_id);
         itemsProcessed++;
       }
 
@@ -126,16 +127,13 @@ export class SyncService {
     });
   }
 
-  private async upsertItem(userId: string, release: any) {
+  private async upsertItem(userId: string, release: DiscogsRelease) {
     const info = release.basic_information;
-    const artist = (info.artists as any[])?.map((a: any) => a.name).join(', ') ?? 'Unknown';
+    const artist = info.artists?.map((a) => a.name).join(', ') ?? 'Unknown';
     const genres: string[] = info.genres ?? [];
     const styles: string[] = info.styles ?? [];
-    const formats: string[] = (info.formats as any[])?.flatMap((f: any) => [
-      f.name,
-      ...(f.descriptions ?? []),
-    ]) ?? [];
-    const labels: string[] = (info.labels as any[])?.map((l: any) => l.name) ?? [];
+    const formats: string[] = info.formats?.flatMap((f) => [f.name, ...(f.descriptions ?? [])]) ?? [];
+    const labels: string[] = info.labels?.map((l) => l.name) ?? [];
 
     await prisma.collectionItem.upsert({
       where: {
@@ -153,7 +151,7 @@ export class SyncService {
         coverImageUrl: info.cover_image ?? null,
         thumbImageUrl: info.thumb ?? null,
         dateAdded: release.date_added ? new Date(release.date_added) : null,
-        rawJson: release,
+        rawJson: release as unknown as Prisma.InputJsonValue,
         genres: { create: genres.map((g) => ({ genre: g })) },
         styles: { create: styles.map((s) => ({ style: s })) },
         formats: { create: formats.map((f) => ({ format: f })) },
@@ -167,7 +165,7 @@ export class SyncService {
         coverImageUrl: info.cover_image ?? null,
         thumbImageUrl: info.thumb ?? null,
         dateAdded: release.date_added ? new Date(release.date_added) : null,
-        rawJson: release,
+        rawJson: release as unknown as Prisma.InputJsonValue,
         isDeleted: false,
         genres: { deleteMany: {}, create: genres.map((g) => ({ genre: g })) },
         styles: { deleteMany: {}, create: styles.map((s) => ({ style: s })) },

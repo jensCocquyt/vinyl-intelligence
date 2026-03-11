@@ -3,6 +3,45 @@ import OAuth from 'oauth-1.0a';
 import crypto from 'crypto';
 import { prisma } from '../lib/prisma';
 
+interface DiscogsArtist {
+  name: string;
+}
+
+interface DiscogsFormat {
+  name: string;
+  descriptions?: string[];
+}
+
+interface DiscogsLabel {
+  name: string;
+}
+
+export interface DiscogsBasicInformation {
+  id: number;
+  title: string;
+  year?: number;
+  country?: string;
+  cover_image?: string;
+  thumb?: string;
+  artists: DiscogsArtist[];
+  genres: string[];
+  styles: string[];
+  formats: DiscogsFormat[];
+  labels: DiscogsLabel[];
+}
+
+export interface DiscogsRelease {
+  instance_id: number;
+  folder_id: number;
+  date_added?: string;
+  basic_information: DiscogsBasicInformation;
+}
+
+interface DiscogsCollectionPage {
+  pagination: { pages: number; page: number; items: number };
+  releases: DiscogsRelease[];
+}
+
 const DISCOGS_BASE = 'https://api.discogs.com';
 const DISCOGS_REQUEST_TOKEN_URL = 'https://www.discogs.com/oauth/request_token';
 const DISCOGS_AUTHORIZE_URL = 'https://www.discogs.com/oauth/authorize';
@@ -138,7 +177,7 @@ export class DiscogsService {
       params: { page, per_page: perPage, sort: 'added', sort_order: 'desc' },
     });
 
-    return response.data;
+    return response.data as DiscogsCollectionPage;
   }
 
   async getReleaseStats(releaseId: number) {

@@ -19,6 +19,10 @@ pnpm-debug.log*
 # Playwright
 .playwright-mcp/
 
+# Claude Code
+.claude/settings.local.json
+
 # OS
 .DS_Store
 Thumbs.db
+

@@ -31,7 +31,8 @@ export class ClerkService {
   async init(): Promise<void> {
     try {
       const module = await import('@clerk/clerk-js');
-      const ClerkClass = module.default as unknown as new (key: string) => ClerkInstance;
+      type ClerkModule = { default?: new (key: string) => ClerkInstance; Clerk?: new (key: string) => ClerkInstance };
+      const ClerkClass = ((module as unknown as ClerkModule).default ?? (module as unknown as ClerkModule).Clerk) as new (key: string) => ClerkInstance;
       this.clerk = new ClerkClass(environment.clerkPublishableKey);
       await this.clerk.load({
         sdkMetadata: {

@@ -22,8 +22,8 @@ syncRouter.post('/sync', requireAuth, syncLimiter, async (req, res) => {
     const { userId } = getAuth(req);
     const job = await syncService.startSync(userId!);
     res.json({ jobId: job.id, status: job.status });
-  } catch (err: any) {
-    res.status(500).json({ error: err.message ?? 'Sync failed' });
+  } catch (err: unknown) {
+    res.status(500).json({ error: err instanceof Error ? err.message : 'Sync failed' });
   }
 });
 

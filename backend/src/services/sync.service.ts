@@ -1,3 +1,4 @@
+import type { Prisma } from '@prisma/client';
 import { prisma } from '../lib/prisma';
 import { DiscogsService, type DiscogsRelease } from './discogs.service';
 
@@ -150,7 +151,7 @@ export class SyncService {
         coverImageUrl: info.cover_image ?? null,
         thumbImageUrl: info.thumb ?? null,
         dateAdded: release.date_added ? new Date(release.date_added) : null,
-        rawJson: release,
+        rawJson: release as unknown as Prisma.InputJsonValue,
         genres: { create: genres.map((g) => ({ genre: g })) },
         styles: { create: styles.map((s) => ({ style: s })) },
         formats: { create: formats.map((f) => ({ format: f })) },
@@ -164,7 +165,7 @@ export class SyncService {
         coverImageUrl: info.cover_image ?? null,
         thumbImageUrl: info.thumb ?? null,
         dateAdded: release.date_added ? new Date(release.date_added) : null,
-        rawJson: release,
+        rawJson: release as unknown as Prisma.InputJsonValue,
         isDeleted: false,
         genres: { deleteMany: {}, create: genres.map((g) => ({ genre: g })) },
         styles: { deleteMany: {}, create: styles.map((s) => ({ style: s })) },
